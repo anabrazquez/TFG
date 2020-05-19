@@ -1,0 +1,50 @@
+informe works!
+<div class="container">
+    <div class="row d-flex flex-column minHeight">
+        <div class="col-12">
+            <form [formGroup]="envioFormulario" (ngSubmit)="enviarFormularioContacto()" class="w-100 col-12">
+                <div class="form-group w-100">
+                    <label class="labelStyle" for="asunto">Voltaje<p class="obligatorio d-inline-flex">*</p></label>
+                    <div class="input-group pointer">
+                        <select formControlName="asunto" aria-label="Asunto" title="asunto" id="asunto" class="form-control float-left" name="asunto">
+                            <option *ngIf="envioFormulario.get('asunto')?.value === null" value="null" disabled selected>- Seleccionar asunto -</option>
+                            <option *ngIf="envioFormulario.get('asunto')?.value !== null" value="undefined" disabled selected>- Seleccionar asunto -</option>
+                            <option *ngFor="let tipoAsunto of tiposAsunto" [ngValue]="tipoAsunto.clave">{{tipoAsunto.valor}}</option>
+                        </select>
+                    </div>
+                    <small class="text-danger" *ngIf="envioFormulario.get('asunto')?.errors?.required && envioFormulario.get('asunto')?.touched">El campo 'Asunto' es obligatorio</small>
+                </div>
+                
+                <div class="form-group w-100">
+                    <label class="labelStyle" for="direccionemail">Tiempo<p *ngIf="envioFormulario.get('asunto')?.value === 'INCIDENCIA'" class="obligatorio d-inline-flex">*</p></label>
+                    <input aria-label="Dirección de email" id="direccionemail" name="direccionemail" formControlName="direccionemail" type="email" class="form-control" placeholder="correo@dominio.com"/>
+                    <small class="text-danger" *ngIf="(envioFormulario.get('direccionemail')?.value === '' || envioFormulario.get('direccionemail')?.value === null) && envioFormulario.get('asunto')?.value === 'INCIDENCIA' && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Dirección de email' es obligatorio</small>
+                    <small class="text-danger" *ngIf="envioFormulario.get('direccionemail')?.errors !== null && envioFormulario.get('direccionemail')?.value !== '' && envioFormulario.get('direccionemail')?.value !== null && envioFormulario.get('direccionemail')?.touched">El email no tiene un formato correcto (ej. 'correo@dominio.com')</small>
+                </div>
+
+
+                <div class="form-group w-100">
+                    <label class="labelStyle" for="mensaje">Anotaciones a tener en cuenta</label>
+                    <textarea aria-label="Mensaje" id="mensaje" name="mensaje" formControlName="mensaje" type="text" class="form-control" rows="5" placeholder="Escribe tu mensaje"></textarea>
+                    <small class="text-danger" *ngIf="!envioFormulario.controls['mensaje'].valid && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Mensaje' es obligatorio</small>
+                </div>
+
+                <div [hidden]="envioFormulario.get('direccionemail')?.value === '' || envioFormulario.get('direccionemail')?.value === null"class="form-check mt-4">
+                    <input type="checkbox" class="form-check-input" id="avisolegal" name="condiciones" formControlName="condiciones"/>
+                    <label class="form-check-label" for="avisolegal"><span class="letra-gris">He leído y acepto el <a href="#" class="enlace-formulario">Aviso legal</a> y la <a href="#" class="enlace-formulario">Política de privacidad</a></span></label>
+                    <small class="text-danger" [hidden]="envioFormulario.get('condiciones')?.value === true"><br>Debe aceptar el Aviso legal y la Política de privacidad</small>
+                </div>
+                <br>
+                <div class="pull-right">
+                    <button class="btn btn-success btn-md btn-block px-5 fs12" type="submit" [disabled]="!formularioValido()"><img alt="Enviar" src="../../../..{{contexto}}/content/images/iconos/contacto/globe.png" > ENVIAR</button>
+                </div>
+            </form>
+            <!--<ngb-alert *ngIf="errorEnvio !== '' && !enviado && !closeAlertError" [type]="'danger'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlertError=true">
+                <strong><i class="fa fa-times"></i></strong>{{errorEnvio}}
+            </ngb-alert>
+            <ngb-alert *ngIf="errorEnvio === '' && enviado && !closeAlert" [type]="'primary'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlert=true">
+                <strong><i class="fa fa-check"></i></strong>Su consulta se ha enviado correctamente.
+            </ngb-alert>-->
+        </div>
+    </div>        
+</div>
