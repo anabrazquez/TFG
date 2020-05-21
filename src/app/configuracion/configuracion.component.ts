@@ -10,9 +10,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 
 export class ConfiguracionComponent implements OnInit {
 
-    @Input() tipoSugerencia: String;
-    public tituloPagina = 'Contacto';
-    public urlImagen = 'content/images/iconos/contacto/contacto.svg';
     public envioFormulario: FormGroup;
     public enviado: Boolean = false;
     public closeAlert: Boolean = true;
@@ -35,58 +32,36 @@ export class ConfiguracionComponent implements OnInit {
         'id': 4,
         'name': 'Channel 4'
     }];
-    public tiposAsunto: any[] = [
-        {
-            clave: 'INCIDENCIA',
-            valor: 'Incidencias'
-        },
-        {
-            clave: 'SUGERENCIA_CITA',
-            valor: 'Sugerencia de Citas'
-        },
-        {
-            clave: 'SUGERENCIA_DATO',
-            valor: 'Sugerencia de Datos'
-        },
-        {
-            clave: 'SUGERENCIA_TARJETA',
-            valor: 'Sugerencia de Tarjetas'
-        },
-        {
-            clave: 'SUGERENCIA_GENERAL',
-            valor: 'Otras sugerencias'
-        }
-    ]
 
     constructor(private formBuilder: FormBuilder) { }
 
     ngOnInit() {
         this.errorEnvio = '';
         this.buildFormularioContacto();
-        this.setValueFormValidators();
+        // this.setValueFormValidators();
     }
 
-    setValueFormValidators() {
+    // setValueFormValidators() {
 
-        const correoControl = this.envioFormulario.get('direccionemail');
-        const condicionesControl = this.envioFormulario.get('condiciones');
+    //     const correoControl = this.envioFormulario.get('direccionemail');
+    //     const condicionesControl = this.envioFormulario.get('condiciones');
 
-        this.envioFormulario.get('asunto').valueChanges.subscribe(() => {
-            correoControl.updateValueAndValidity();
-        });
+    //     this.envioFormulario.get('asunto').valueChanges.subscribe(() => {
+    //         correoControl.updateValueAndValidity();
+    //     });
 
-        this.envioFormulario.get('direccionemail').valueChanges.subscribe(() => {
-            condicionesControl.updateValueAndValidity();
-        });
+    //     this.envioFormulario.get('direccionemail').valueChanges.subscribe(() => {
+    //         condicionesControl.updateValueAndValidity();
+    //     });
 
-    }
+    // }
 
     buildFormularioContacto() {
         this.envioFormulario = this.formBuilder.group({
-            direccionemail: ['' , Validators.required],
-            asunto: [this.tipoSugerencia, Validators.required],
-            mensaje: ['', Validators.required],
-            condiciones: ['', Validators.required]
+            canal: ['' , Validators.required],
+            tiempo: ['', Validators.required],
+            voltaje: ['', Validators.required],
+            muestreo: ['', Validators.required]
         });
     }
 

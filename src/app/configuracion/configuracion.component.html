@@ -1,58 +1,43 @@
-informe works!
 <div class="container">
     <div class="row d-flex flex-column minHeight">
         <div class="col-12">
-            <form [formGroup]="envioFormulario" (ngSubmit)="enviarFormularioContacto()" class="w-100 col-12">
-     <!--     <div class="form-group w-100">
-                    <label class="labelStyle" for="asunto">Voltaje<p class="obligatorio d-inline-flex">*</p></label>
-                    <div class="input-group pointer">
-                        <select formControlName="asunto" aria-label="Asunto" title="asunto" id="asunto" class="form-control float-left" name="asunto">
-                            <option *ngIf="envioFormulario.get('asunto')?.value === null" value="null" disabled selected>- Seleccionar asunto -</option>
-                            <option *ngIf="envioFormulario.get('asunto')?.value !== null" value="undefined" disabled selected>- Seleccionar asunto -</option>
-                            <option *ngFor="let tipoAsunto of tiposAsunto" [ngValue]="tipoAsunto.clave">{{tipoAsunto.valor}}</option>
-                        </select>
-                    </div>
-                    <small class="text-danger" *ngIf="envioFormulario.get('asunto')?.errors?.required && envioFormulario.get('asunto')?.touched">El campo 'Asunto' es obligatorio</small>
-                </div> -->      
-                
+            <form [formGroup]="configFormulario" (ngSubmit)="enviarFormulario()" class="w-100 col-12">
                 <div class="form-group w-100">
-                   
-                        <label required class="labelStyle" for="tipoPersona">Canal: </label>
-                        <select id="direccionemail" name="direccionemail" formControlName="direccionemail"  class="form-control">
-                            <option *ngFor="let canal of canales" [ngValue]="canal.id">{{canal.name}}</option>
-                        </select>
-             
+                    <label required class="labelStyle" for="canales">Canal: </label>
+                    <select id="canal" name="canal" formControlName="canal"  class="form-control">
+                        <option *ngFor="let canal of canales" [ngValue]="canal.id">{{canal.name}}</option>
+                    </select>
                     </div>
                 <div class="form-group w-100">
-                    <label class="labelStyle" for="direccionemail">Escala horizontal: Tiempo<p *ngIf="envioFormulario.get('asunto')?.value === 'INCIDENCIA'" class="obligatorio d-inline-flex">*</p></label>
-                    <input aria-label="Dirección de email" id="direccionemail" name="direccionemail" formControlName="direccionemail" type="email" class="form-control" placeholder="20 ms"/>
-                    <small class="text-danger" *ngIf="(envioFormulario.get('direccionemail')?.value === '' || envioFormulario.get('direccionemail')?.value === null) && envioFormulario.get('asunto')?.value === 'INCIDENCIA' && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Dirección de email' es obligatorio</small>
-                    <small class="text-danger" *ngIf="envioFormulario.get('direccionemail')?.errors !== null && envioFormulario.get('direccionemail')?.value !== '' && envioFormulario.get('direccionemail')?.value !== null && envioFormulario.get('direccionemail')?.touched">El email no tiene un formato correcto (ej. 'correo@dominio.com')</small>
+                    <label class="labelStyle" for="tiempo">Escala horizontal: Tiempo</label>
+                    <input aria-label="Tiempo" id="tiempo" name="tiempo" formControlName="tiempo" type="text" class="form-control" placeholder="20 ms"/>
+                    <small class="text-danger" *ngIf="(envioFormulario.get('tiempo')?.value === '' || envioFormulario.get('tiempo')?.value === null)  && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Tiempo' es obligatorio</small>
+                    <small class="text-danger" *ngIf="envioFormulario.get('tiempo')?.errors !== null && envioFormulario.get('tiempo')?.value !== '' && envioFormulario.get('tiempo')?.value !== null && envioFormulario.get('tiempo')?.touched">El tiempo debe estar comprendido en el rango [0,50] ms </small>
                 </div>
                 <div class="form-group w-100">
-                    <label class="labelStyle" for="direccionemail">Escala vertical: Voltaje<p *ngIf="envioFormulario.get('asunto')?.value === 'INCIDENCIA'" class="obligatorio d-inline-flex">*</p></label>
-                    <input aria-label="Dirección de email" id="direccionemail" name="direccionemail" formControlName="direccionemail" type="email" class="form-control" placeholder="0,8 V"/>
-                    <small class="text-danger" *ngIf="(envioFormulario.get('direccionemail')?.value === '' || envioFormulario.get('direccionemail')?.value === null) && envioFormulario.get('asunto')?.value === 'INCIDENCIA' && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Dirección de email' es obligatorio</small>
-                    <small class="text-danger" *ngIf="envioFormulario.get('direccionemail')?.errors !== null && envioFormulario.get('direccionemail')?.value !== '' && envioFormulario.get('direccionemail')?.value !== null && envioFormulario.get('direccionemail')?.touched">El email no tiene un formato correcto (ej. 'correo@dominio.com')</small>
+                    <label class="labelStyle" for="voltaje">Escala vertical: Voltaje</label>
+                    <input aria-label="Voltaje" id="voltaje" name="voltaje" formControlName="voltaje" type="text" class="form-control" placeholder="0,8 V"/>
+                    <small class="text-danger" *ngIf="(envioFormulario.get('voltaje')?.value === '' || envioFormulario.get('voltaje')?.value === null) && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Voltaje' es obligatorio</small>
+                    <small class="text-danger" *ngIf="envioFormulario.get('voltaje')?.errors !== null && envioFormulario.get('voltaje')?.value !== '' && envioFormulario.get('voltaje')?.value !== null && envioFormulario.get('voltaje')?.touched">El voltaje debe estar comprendido en el rango [0,5-0,8] V</small>
                 </div>
                 <div class="form-group w-100">
-                    <label class="labelStyle" for="direccionemail">Frecuencia/tiempo de muestreo<p *ngIf="envioFormulario.get('asunto')?.value === 'INCIDENCIA'" class="obligatorio d-inline-flex">*</p></label>
-                    <input aria-label="Dirección de email" id="direccionemail" name="direccionemail" formControlName="direccionemail" type="email" class="form-control" placeholder="1.00 GSa/s"/>
-                    <small class="text-danger" *ngIf="(envioFormulario.get('direccionemail')?.value === '' || envioFormulario.get('direccionemail')?.value === null) && envioFormulario.get('asunto')?.value === 'INCIDENCIA' && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Dirección de email' es obligatorio</small>
-                    <small class="text-danger" *ngIf="envioFormulario.get('direccionemail')?.errors !== null && envioFormulario.get('direccionemail')?.value !== '' && envioFormulario.get('direccionemail')?.value !== null && envioFormulario.get('direccionemail')?.touched">El email no tiene un formato correcto (ej. 'correo@dominio.com')</small>
+                    <label class="labelStyle" for="muestreo">Frecuencia/tiempo de muestreo</label>
+                    <input aria-label="Muestreo" id="muestreo" name="muestreo" formControlName="muestreo" type="text" class="form-control" placeholder="1.00 GSa/s"/>
+                    <small class="text-danger" *ngIf="(envioFormulario.get('muestreo')?.value === '' || envioFormulario.get('muestreo')?.value === null) && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Frecuencia/tiempo de muestreo' es obligatorio</small>
+                    <small class="text-danger" *ngIf="envioFormulario.get('muestreo')?.errors !== null && envioFormulario.get('muestreo')?.value !== '' && envioFormulario.get('muestreo')?.value !== null && envioFormulario.get('muestreo')?.touched">La frecuencia de muestreo debe estar comprendida en el rango [0, 1] GSa/s</small>
                 </div>
 
                 <br>
                 <div class="pull-right">
-                    <button class="btn btn-success btn-md btn-block px-5 fs12" type="submit" [disabled]="!formularioValido()">Configurar</button>
+                    <button class="btn btn-success btn-md btn-block px-5 fs12" type="submit" [disabled]="!formularioValido()">Enviar</button>
                 </div>
             </form>
-            <!--<ngb-alert *ngIf="errorEnvio !== '' && !enviado && !closeAlertError" [type]="'danger'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlertError=true">
+            <ngb-alert *ngIf="errorEnvio !== '' && !enviado && !closeAlertError" [type]="'danger'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlertError=true">
                 <strong><i class="fa fa-times"></i></strong>{{errorEnvio}}
             </ngb-alert>
             <ngb-alert *ngIf="errorEnvio === '' && enviado && !closeAlert" [type]="'primary'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlert=true">
                 <strong><i class="fa fa-check"></i></strong>Su consulta se ha enviado correctamente.
-            </ngb-alert>-->
+            </ngb-alert>
         </div>
     </div>        
 </div>
