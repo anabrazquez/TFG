@@ -19,6 +19,22 @@ export class ConfiguracionComponent implements OnInit {
     public closeAlertError: Boolean = true;
     public errorEnvio: String;
     formSuscription;
+    public canales: any[] = [{
+        'id': 1,
+        'name': 'Channel 1'
+    },
+    {
+        'id': 2,
+        'name': 'Channel 2'
+    },
+    {
+        'id': 3,
+        'name': 'Channel 3'
+    },
+    {
+        'id': 4,
+        'name': 'Channel 4'
+    }];
     public tiposAsunto: any[] = [
         {
             clave: 'INCIDENCIA',

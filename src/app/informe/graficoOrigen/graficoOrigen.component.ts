@@ -3,21 +3,21 @@ import * as $ from 'jquery';
 import * as CanvasJS from './../../../../src/assets/canvas/canvasjs.min';
 
 @Component({
-  selector: 'app-grafico1',
-  templateUrl: './grafico1.component.html',
-  styleUrls: ['./grafico1.component.scss']
+  selector: 'app-graficoOrigen',
+  templateUrl: './graficoOrigen.component.html',
+  styleUrls: ['./graficoOrigen.component.scss']
 })
-export class Grafico1Component implements OnInit {
+export class GraficoOrigenComponent implements OnInit {
 
   constructor() { }
 
 	ngOnInit() {
     let dataPoints = [];
     let dpsLength = 0;
-    let chart = new CanvasJS.Chart("chartContainer",{
+    let chart = new CanvasJS.Chart("chartContainerOrigen",{
       exportEnabled: true,
       title:{
-        text:"Live Chart with Data-Points from External JSON"
+        text:""
       },
       data: [{
         type: "spline",
@@ -25,7 +25,7 @@ export class Grafico1Component implements OnInit {
       }]
     });
     
-    $.getJSON("/../../../../data/datapoints.json", function(data) {  
+    $.getJSON("/../../../../data/datosOrigen.json", function(data) {  
       $.each(data, function(key, value){
         dataPoints.push({x: value[0], y: parseInt(value[1])});
       });
@@ -34,8 +34,8 @@ export class Grafico1Component implements OnInit {
       updateChart();
     });
     function updateChart() {	
-    // $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=" + (dpsLength + 1) + "&ystart=" + (dataPoints[dataPoints.length - 1].y) + "&length=1&type=json&callback=?", function(data) {
-  $.getJSON('/../../../../data/datapoints.json', function(data) {  
+  // $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=" + (dpsLength + 1) + "&ystart=" + (dataPoints[dataPoints.length - 1].y) + "&length=1&type=json&callback=?", function(data) {
+  $.getJSON('/../../../../data/datosOrigen.json', function(data) {  
     $.each(data, function(key, value) {
         dataPoints.push({
         x: parseInt(value[0]),

@@ -11,6 +11,9 @@ import { Grafico1Component } from './informe/grafico1/grafico1.component';
 import { Grafico2Component } from './informe/grafico2/grafico2.component';
 import { Grafico3Component } from './informe/grafico3/grafico3.component';
 import { Grafico4Component } from './informe/grafico4/grafico4.component';
+import { GraficoOrigenComponent } from './informe/graficoOrigen/graficoOrigen.component';
+import { ChartjsComponent } from './informe/chartjs/chartjs.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,16 +22,19 @@ import { Grafico4Component } from './informe/grafico4/grafico4.component';
     InformeComponent,
     ConfiguracionComponent,
     ResultadoComponent,
+    GraficoOrigenComponent,
     Grafico1Component,
     Grafico2Component,
     Grafico3Component,
-    Grafico4Component
+    Grafico4Component,
+    ChartjsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule ,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
