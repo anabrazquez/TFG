@@ -1,0 +1,42 @@
+<div class="minHeight flex">
+        <div class="border w100 p-3">
+            <p> Seleccione los parámetros de su señal cuyos valores desee obtener: </p>
+            <form [formGroup]="paramsFormulario" (ngSubmit)="enviarFormulario()" class="w-100 col-12">
+            <div>
+                <label>
+                    <input  formControlName="amplitud" id="amplitud" name="amplitud" [checked]="amplitud == true" [(ngModel)] = "amplitud" type="checkbox" />  Amplitud
+                </label>
+             </div>
+            <div>
+                <label>
+                    <input formControlName="frecuencia" id="frecuencia" name="frecuencia" [checked]="frecuencia == true" [(ngModel)] = "frecuencia" type="checkbox" />  Frecuencia
+                </label>
+             </div>
+             <div>
+                <label>
+                    <input formControlName="periodo" id="periodo" name="periodo" [checked]="periodo == true" [(ngModel)] = "periodo" type="checkbox" />  Periodo
+                </label>
+             </div>
+             <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+                <button class="btn btn-success btn-md btn-block px-5 fs12 boton" type="submit" [disabled]="!formularioValido()">Calcular</button>
+            </div>
+             </form>
+        </div>
+        <div class="border w100 p-3">
+            <div *ngIf="!errorLlamada && cargandoLlamada" class="textoInfo">
+                <i class="fa fa-spinner fa-spin fa-2x d-lg-none"></i>
+                    <span class="d-none d-lg-inline">
+                        <small>Cargando parámetros </small>
+                    </span>
+             </div>
+             <div *ngIf = "errorLlamada && !cargandoLlamada" class="textoInfo">
+                 <p>Error calculando parámetros</p>
+             </div>
+             <div *ngIf = "!errorLlamada && !cargandoLlamada">
+                <b>Valores Calculados </b>
+                <div>Amplitud :  {{amp}}</div>
+                <div>Frecuencia: {{frec}}</div>
+                <div>Periodo: {{per}}</div>
+            </div>
+        </div>
+</div>

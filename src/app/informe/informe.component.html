@@ -1,5 +1,39 @@
-<p>informe works!</p>
+<!-- SEÑAL ORIGEN OSCILOSCOPIO -->
+<div *ngIf="!errorOriginal && cargandoOriginal" class="textoInfo">
+    <i class="fa fa-spinner fa-spin fa-2x d-lg-none"></i>
+        <span class="d-none d-lg-inline">
+            <small>Cargando señal origen </small>
+        </span>
+ </div>
+ <div *ngIf = "errorOriginal && !cargandoOriginal" class="textoInfo">
+     <p>Error cargando la señal origen</p>
+ </div>
 
-<!-- <app-graficoOrigen class="mt-2 mb-2 p-4"></app-graficoOrigen>
-<app-grafico1 class="mt-2 mb-2 p-4"></app-grafico1> -->
-<app-chartjs></app-chartjs>
+<div *ngIf = "!errorOriginal && !cargandoOriginal">
+    <input *ngIf="cargada1 == true" class="no-border w100 m1" type="text" placeholder="Título">
+    <textarea *ngIf="cargada1 == true" class="w100 m1" placeholder="Descripción"></textarea>
+    <canvas class="m1" id="myChartOrigen" ></canvas>
+</div>
+
+<!-- SEÑAL CONFIGURADA CON FORMULARIO  -->
+
+<div *ngIf="!errorConfigurada && cargandoConfigurada" class="textoInfo mt-5">
+    <!-- <i class="fa fa-spinner fa-spin fa-2x d-lg-none"></i> -->
+    <span class="d-none d-lg-inline">
+        <i class="mt-5 fa fa-spinner fa-spin"></i><small>Cargando señal configurada </small>
+    </span>
+ </div>
+ <div *ngIf = "errorConfigurada && !cargandoConfigurada" class="textoInfo mt-5">
+     <p>Error cargando la señal configurada</p>
+ </div>
+ <div *ngIf = "!errorConfigurada && !cargandoConfigurada">
+    <input *ngIf = "cargada2 == true" class="no-border w100 m1" type="text" placeholder="Título">
+    <textarea *ngIf = "cargada2 == true" class="w100 m1" placeholder="Descripción"></textarea> 
+    <canvas id="myChart" ></canvas></div>
+ <div *ngIf = "!errorConfigurada && !cargandoConfigurada">
+    <input *ngIf="cargada3 == true" class="no-border w100 m1" type="text" placeholder="Título">
+    <textarea  *ngIf="cargada3 == true" class="w100 m1" placeholder="Descripción"></textarea>
+    <canvas id="myChartFFT" ></canvas></div>
+
+<!-- 
+ <div class="mb-2" id="chartContainer3" style="height: 370px; width: 100%; margin-left:auto;margin-right:auto;"></div> -->

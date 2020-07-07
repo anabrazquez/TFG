@@ -4,7 +4,7 @@ import { ValoresConfiguracion } from '../configuracion/configuracion.model';
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.scss'],
+  styleUrls: ['./../../printedPage.scss'],
   providers: [InicioService]
 })
 export class InicioComponent implements OnInit {
@@ -12,38 +12,18 @@ export class InicioComponent implements OnInit {
     'canal': '1',
     'voltaje': '0,5',
     'tiempo': '10',
-    'fMuestreo': '1'
+    'fMuestreo': '1',
+    'puntos': '1'
 };
   constructor(private inicioService: InicioService) { 
   }
   ngOnInit() {
-    this.setSignalConfig();
   }
 
-  setSignalConfig(): void {
+  imprimirResultados(){
+    window.print();
+  }
 
-    this.inicioService.signalConfiguration(this.valoresConfiguracion).then((response) => {
-      console.log('Respuesta configuracion: ', response)
-    },
-    (error) => {
-      console.log('Ha fallado configuracion: ', error)
-    });
-};
-
-prueba(): void {
-  this.inicioService
-  .prueba()
-  .subscribe((res) => {
-    console.log ("respuesta django: ", res)
-  }, (err) => {
-      console.log("Error respuesta django")
-      // if (err.status === 503) {
-      //     this.errorEnvio = error503;
-      // } else {
-      //     this.errorEnvio = errorEnvio;
-      // }
-  });
-}
 
 
   // dBConnection(){

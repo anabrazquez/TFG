@@ -1,13 +1,13 @@
-<p>inicio works!</p>
-<div class="m-5 row">
-    <div class="border col-6">
+<div class="m-5 row minHeight">
+    <div id = "formulario" class="border col-6 p-5 no-print">
         <app-configuracion></app-configuracion>
     </div>
-    <div class="border col-6">
+    <div class="border col-6 p-5 yes-print">
         <app-informe></app-informe>
     </div>
-<div class="m-5 row w-100">
-    <div class="border col-12">
-        <app-resultado></app-resultado>
+<div id="descarga" class="no-print m-5 row w-100">
+    <div class="col-12">
+        <!-- <button (click)="imprimirResultados()"><a class="myButton" >Descargar resultados</a></button> -->
+        <a (click)="imprimirResultados()" class="myButton" >Descargar resultados</a>
     </div>
 </div>

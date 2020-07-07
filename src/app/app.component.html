@@ -1,2 +1,16 @@
-TFG Ana
-<app-inicio></app-inicio>
+<app-header></app-header>
+<ul class="menu">
+    <li routerlink="inicio" routerlinkactive="active" tabindex="0" ng-reflect-router-link="inicio" ng-reflect-router-link-active="active">
+        <a (click)="mostrarInicio1()" class="d-none d-lg-inline item-principal-menu pointer" name="inicio" title="Inicio">Configuración de FFT</a>
+    </li>
+    <li routerlink="inicio2" routerlinkactive="active" tabindex="0" ng-reflect-router-link="inicio2" ng-reflect-router-link-active="active">
+        <a (click)="mostrarInicio2()" class="d-none d-lg-inline item-principal-menu pointer" name="inicio2" title="Inicio">Cálculo de parámetros</a>
+    </li>
+</ul>
+<div  *ngIf="muestraInicio1 && !muestraInicio2">
+    <app-inicio class="m-5"></app-inicio>
+</div>
+<div *ngIf="muestraInicio2 && !muestraInicio1">
+    <app-inicio2 ></app-inicio2>
+</div>
+<app-footer></app-footer>

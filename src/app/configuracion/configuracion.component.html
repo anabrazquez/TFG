@@ -1,35 +1,55 @@
 <div class="container">
     <div class="row d-flex flex-column minHeight">
         <div class="col-12">
+            <button class="btn btn-success btn-lg btn-block mb-5 fs12 boton w10 pl-2" type="button" (click)="refresh()"><img class="Refrescar" alt="US" width="30" height="30" src="./../../../assets/refresh.png"/></button>
+            <!-- <button class="mb-3 btn btn-primary float-right fs12 boton puntero" type="button" (click)="refresh()"> Refrescar -->
+                    <!-- <img class="Refrescar" alt="US" width="30" height="30" src="./../../../assets/refresh.png"/> -->
+            <!-- </button> -->
             <form [formGroup]="configFormulario" (ngSubmit)="enviarFormulario()" class="w-100 col-12">
                 <div class="form-group w-100">
                     <label required class="labelStyle" for="canales">Canal: </label>
                     <select id="canal" name="canal" formControlName="canal"  class="form-control">
-                        <option *ngFor="let canal of canales" [ngValue]="canal.id">{{canal.name}}</option>
+                        <option *ngFor="let canal of canales; let i = index" [ngValue]="canal.id">{{canal.name}}  
+                        </option>
                     </select>
-                    </div>
-                <div class="form-group w-100">
-                    <label class="labelStyle" for="tiempo">Escala horizontal: Tiempo</label>
-                    <input aria-label="Tiempo" id="tiempo" name="tiempo" formControlName="tiempo" type="text" class="form-control" placeholder="20 ms"/>
-                    <small class="text-danger" *ngIf="(envioFormulario.get('tiempo')?.value === '' || envioFormulario.get('tiempo')?.value === null)  && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Tiempo' es obligatorio</small>
-                    <small class="text-danger" *ngIf="envioFormulario.get('tiempo')?.errors !== null && envioFormulario.get('tiempo')?.value !== '' && envioFormulario.get('tiempo')?.value !== null && envioFormulario.get('tiempo')?.touched">El tiempo debe estar comprendido en el rango [0,50] ms </small>
+                </div>
+                <div *ngIf= "!triggerAsignado" class="form-group w-100">
+                    <label>
+                        <input formControlName="trigger" id="trigger" name="trigger" [checked]="trigger == true" [(ngModel)] = "trigger" type="checkbox" />Trigger
+                    </label>
                 </div>
                 <div class="form-group w-100">
-                    <label class="labelStyle" for="voltaje">Escala vertical: Voltaje</label>
-                    <input aria-label="Voltaje" id="voltaje" name="voltaje" formControlName="voltaje" type="text" class="form-control" placeholder="0,8 V"/>
-                    <small class="text-danger" *ngIf="(envioFormulario.get('voltaje')?.value === '' || envioFormulario.get('voltaje')?.value === null) && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Voltaje' es obligatorio</small>
-                    <small class="text-danger" *ngIf="envioFormulario.get('voltaje')?.errors !== null && envioFormulario.get('voltaje')?.value !== '' && envioFormulario.get('voltaje')?.value !== null && envioFormulario.get('voltaje')?.touched">El voltaje debe estar comprendido en el rango [0,5-0,8] V</small>
+                    <label class="labelStyle" for="tiempo">Escala horizontal: Tiempo (s)</label>
+                    <input [disabled] ="disableTime" aria-label="Tiempo" id="tiempo" name="tiempo" formControlName="tiempo" type="number" class="form-control" placeholder="0.00"/>
+                    <small class="text-danger" *ngIf="(configFormulario.get('tiempo')?.value === '' || configFormulario.get('tiempo')?.value === null)  && (configFormulario.dirty || configFormulario.touched)">El campo 'Tiempo' es obligatorio</small>
+                    <small class="text-danger" *ngIf="configFormulario.get('tiempo')?.errors !== null && configFormulario.get('tiempo')?.value !== '' && configFormulario.get('tiempo')?.value !== null && configFormulario.get('tiempo')?.touched">El tiempo introducido es inv&aacute;lido. Debe ser un número entero o decimal comprendido en [0,30] s </small>
                 </div>
                 <div class="form-group w-100">
-                    <label class="labelStyle" for="muestreo">Frecuencia/tiempo de muestreo</label>
-                    <input aria-label="Muestreo" id="muestreo" name="muestreo" formControlName="muestreo" type="text" class="form-control" placeholder="1.00 GSa/s"/>
-                    <small class="text-danger" *ngIf="(envioFormulario.get('muestreo')?.value === '' || envioFormulario.get('muestreo')?.value === null) && (envioFormulario.dirty || envioFormulario.touched)">El campo 'Frecuencia/tiempo de muestreo' es obligatorio</small>
-                    <small class="text-danger" *ngIf="envioFormulario.get('muestreo')?.errors !== null && envioFormulario.get('muestreo')?.value !== '' && envioFormulario.get('muestreo')?.value !== null && envioFormulario.get('muestreo')?.touched">La frecuencia de muestreo debe estar comprendida en el rango [0, 1] GSa/s</small>
+                    <label class="labelStyle" for="voltaje">Escala vertical: Voltaje (V)</label>
+                    <input aria-label="Voltaje" id="voltaje" name="voltaje" formControlName="voltaje" type="number" class="form-control" placeholder="0.00"/> 
+                    <small class="text-danger" *ngIf="(configFormulario.get('voltaje')?.value === '' || configFormulario.get('voltaje')?.value === null) && (configFormulario.dirty || configFormulario.touched)">El campo 'Voltaje' es obligatorio</small>
+                    <small class="text-danger" *ngIf="configFormulario.get('voltaje')?.errors !== null && configFormulario.get('voltaje')?.value !== '' && configFormulario.get('voltaje')?.value !== null && configFormulario.get('voltaje')?.touched">El voltaje introducido es inv&aacute;lido. Debe ser un número entero o decimal comprendido en [0,5] V</small>
                 </div>
-
+                <div class="form-group w-100">
+                    <label class="labelStyle" for="muestreo">Frecuencia/tiempo de muestreo (GSa/s)</label>
+                    <input aria-label="Muestreo" id="muestreo" name="muestreo" formControlName="muestreo" type="number" class="form-control" placeholder="0.00"/>
+                    <small class="text-danger" *ngIf="(configFormulario.get('muestreo')?.value === '' || configFormulario.get('muestreo')?.value === null) && (configFormulario.dirty || configFormulario.touched)">El campo 'Frecuencia/tiempo de muestreo' es obligatorio</small>
+                    <small class="text-danger" *ngIf="configFormulario.get('muestreo')?.errors !== null && configFormulario.get('muestreo')?.value !== '' && configFormulario.get('muestreo')?.value !== null && configFormulario.get('muestreo')?.touched">La frecuencia de muestreo introducido es inv&aacute;lida. Debe ser un número entero o decimal comprendido en [0,1] GSa/s</small>
+                </div>
+                <div class="form-group w-100">
+                    <label class="labelStyle" for="n">Número de puntos por muestra</label>
+                    <input aria-label="n" id="n" name="n" formControlName="n" type="number" class="form-control" placeholder="0"/>
+                    <small class="text-danger" *ngIf="(configFormulario.get('n')?.value === '' || configFormulario.get('n')?.value === null) && (configFormulario.dirty || configFormulario.touched)">El campo 'Número de puntos por muestra' es obligatorio</small>
+                    <small class="text-danger" *ngIf="configFormulario.get('n')?.errors !== null && configFormulario.get('n')?.value !== '' && configFormulario.get('n')?.value !== null && configFormulario.get('n')?.touched">El número introducido es inv&aacute;lida. Debe ser un número entero comprendido en [1, 256] </small>
+                </div>
                 <br>
-                <div class="pull-right">
-                    <button class="btn btn-success btn-md btn-block px-5 fs12" type="submit" [disabled]="!formularioValido()">Enviar</button>
+               <div class="row">
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+                        <button class="btn btn-success btn-md btn-block px-5 fs12 boton" type="submit" [disabled]="!formularioValido()">Configurar señal osciloscopio</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
+                        <button class="btn btn-success btn-lg btn-block px-5 fs12 boton" type="button" (click)="limpiar()">Limpiar Formulario</button>
+                    </div>
                 </div>
             </form>
             <ngb-alert *ngIf="errorEnvio !== '' && !enviado && !closeAlertError" [type]="'danger'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlertError=true">
@@ -38,6 +58,11 @@
             <ngb-alert *ngIf="errorEnvio === '' && enviado && !closeAlert" [type]="'primary'" class="alertCaja2 w-100 mb-4 mt-2" [dismissible]="true" (close)="closeAlert=true">
                 <strong><i class="fa fa-check"></i></strong>Su consulta se ha enviado correctamente.
             </ngb-alert>
+
+
+            <div class="pull-right mt-5">
+                <button class="btn btn-success btn-md btn-block px-5 fs12 boton" (click) ="generarFFT()" [disabled]="!recibidoOk">Generar FFT</button>
+            </div>
         </div>
     </div>        
 </div>
