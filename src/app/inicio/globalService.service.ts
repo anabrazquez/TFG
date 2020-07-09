@@ -8,7 +8,8 @@ export class GlobalService {
     signal: Signal = {
         'ejes' : {
             'ejex': [],
-            'ejey': []
+            'ejey': [],
+            'salto': ""
         }, 
         'nombreGrafica':'',
         'error': false,
@@ -39,7 +40,8 @@ export class Signal {
     constructor(
         public ejes: {
             ejex : any[],
-            ejey: any[]
+            ejey: any[],
+            salto: string;
         },
         public nombreGrafica: string,
         public error : boolean,

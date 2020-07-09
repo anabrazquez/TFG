@@ -54,6 +54,7 @@ sus() {
     this.ejes = res.ejes;
     this.tipo = res.nombreGrafica;
     this.error = res.error;
+    console.log('SALTO: ', this.ejes.salto)
     this.valoresConfiguracion = res.valoresConfiguracion;
     if ( this.ejes != null &&  this.ejes != "" && this.tipo == 'ORIGINAL'){
       this.cargandoOriginal = true;
@@ -69,7 +70,7 @@ sus() {
         this.cargandoConfigurada = true;
         if (!this.error){
           if (this.tipo == 'MODIFICADA'){
-            this.getConfiguradaSignal();
+            this.generarSignalConfig(this.valoresConfiguracion);
             this.cargada2 = true;
           }
           if (this.tipo == 'FFT'){
@@ -150,6 +151,7 @@ sus() {
         scales: {
           yAxes: [{
             ticks: {
+              stepSize: this.ejes.salto,
               beginAtZero: true,
               userCallback: function(label, index, labels) {
                 label = Math.round((label + Number.EPSILON) * 100) / 100 
@@ -159,6 +161,7 @@ sus() {
           }],
           xAxes: [{
             ticks: {
+              stepSize: this.ejes.salto,
               beginAtZero: true,
               userCallback: function(label, index, labels) {
                 label = Math.round((label + Number.EPSILON) * 100) / 100 
@@ -172,7 +175,7 @@ sus() {
     });
   }
 
-  getConfiguradaSignal(): void {
+  getConfiguradaSignal(salto): void {
     this.cargandoConfigurada = true;
    
       if ( this.ejes != null &&  this.ejes != "" && this.ejes.ejex != [] && this.ejes.ejey != [] && this.tipo == 'MODIFICADA'){
@@ -195,7 +198,8 @@ sus() {
       });
       console.log(this.xyFinal)
       this.cargandoConfigurada = false;
-        this.showConfigurada();
+      console.log('salto3: ', this.ejes.salto)
+        this.showConfigurada(salto);
     } else {
       this.errorConfigurada = true;
     }
@@ -250,7 +254,25 @@ generarFFT(valoresConfiguracion): any {
     });
 };
 
-  showConfigurada() {
+generarSignalConfig(valoresConfiguracion): any {
+
+  this.inicioService.signalConfiguration(valoresConfiguracion).then((response) => {
+    const respuesta = {
+      "ejex" : response.ejex,
+      "ejey" : response.ejey,
+      "salto" : response.salto
+    }
+    console.log('salto 2 :', response.salto)
+    this.getConfiguradaSignal(response.salto);
+    return respuesta;
+  },
+  (error) => {
+      console.log('Ha fallado configuracion: ', error)
+      return null;
+  });
+}
+
+  showConfigurada(salto) {
     var ctx = document.getElementById('myChart');
     this.myChart = new Chart('myChart', {
       type: 'line',
@@ -274,6 +296,7 @@ generarFFT(valoresConfiguracion): any {
         scales: {
           yAxes: [{
             ticks: {
+              stepSize: salto,
               beginAtZero: true,
               userCallback: function(label, index, labels) {
                 label = Math.round((label + Number.EPSILON) * 100) / 100 
@@ -283,6 +306,7 @@ generarFFT(valoresConfiguracion): any {
           }],
           xAxes: [{
             ticks: {
+              stepSize: salto,
               beginAtZero: true,
               userCallback: function(label, index, labels) {
                 label = Math.round((label + Number.EPSILON) * 100) / 100 
@@ -329,27 +353,6 @@ generarFFT(valoresConfiguracion): any {
           }],
           xAxes: [{
             barPercentage: 3,
-            scaleLabel: {
-              display: true,
-              labelString: 'LABEL',
-          },
-          type: 'logarithmic',
-          position: 'left',
-          ticks: {
-            min: 0.1, //minimum tick
-            max: 1000, //maximum tick
-            callback: function (value, index, values) {
-                return Number(value.toString());//pass tick values as a string into Number function
-            }
-       },
-       afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
-           chartObj.ticks = [];
-           chartObj.ticks.push(0.1);
-           chartObj.ticks.push(1);
-           chartObj.ticks.push(10);
-           chartObj.ticks.push(100);
-           chartObj.ticks.push(1000);
-       }
           }]
         }
       }

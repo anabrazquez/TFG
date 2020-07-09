@@ -50,7 +50,8 @@ export class ConfiguracionComponent implements  OnInit {
 
     public respuesta = {
         "ejex" : [],
-        "ejey" : []
+        "ejey" : [],
+        "salto": ""
     }
     recibidoOk: Boolean ;
     triggerAsignado: Boolean;
@@ -68,7 +69,7 @@ export class ConfiguracionComponent implements  OnInit {
         this.getOrigenSignal();
         this.errorEnvio = '';
         this.buildFormularioConfig();
-        this.recibidoOk = false;
+        // this.recibidoOk = false;
         this.disableTime = false;
     }
 
@@ -122,6 +123,7 @@ export class ConfiguracionComponent implements  OnInit {
         this.inicioService.getOrigenSignal().then((response) => {
             this.errorLlamada = false;
             this.respuesta = response;
+            console.log('RESPUESTA ORIGEN: ', this.respuesta)
             const compartirRes = {
                 'ejes': this.respuesta,
                 'nombreGrafica' : 'ORIGINAL',
@@ -144,7 +146,7 @@ export class ConfiguracionComponent implements  OnInit {
             canal: [1 , Validators.required],
             trigger: [true],
             tiempo: [this.tiempoSeteado,  Validators.required && numberValido() && Validators.min(0) && Validators.max(30)],
-            voltaje: [0.00 , Validators.required && numberValido() && Validators.min(0) && Validators.max(5)],
+            voltaje: [0.00 ,numberValido() && Validators.min(0) && Validators.max(5)],
             muestreo: [0, Validators.required && numberValido() && Validators.min(0) && Validators.max(1)],
             n: [0, Validators.min(1) && Validators.max(256)]
         });
@@ -157,15 +159,16 @@ export class ConfiguracionComponent implements  OnInit {
     formularioValido() {
         return this.configFormulario.valid;
     }
-    signalRecibidaOK(mostrarFFTButtom){
-        this.recibidoOk =  mostrarFFTButtom;
-    }
+    // signalRecibidaOK(mostrarFFTButtom){
+    //     this.recibidoOk =  mostrarFFTButtom;
+    // }
      generarFFT(valoresConfiguracion): any {
         this.inicioService.getFFTPotencia2(valoresConfiguracion).then((response) => {
             this.errorLlamada = false;
             this.respuesta = {
               "ejex" : response.ejex,
-              "ejey" : response.ejey
+              "ejey" : response.ejey,
+              "salto" : response.salto
             }
             return this.respuesta;
           },
@@ -188,6 +191,17 @@ export class ConfiguracionComponent implements  OnInit {
             this.globalService.emitAuthentication(compartirRes);
             console.log('Respuesta fft: ', compartirRes)
       };
+
+      llamarFFT(){
+        const compartirRes = {
+            'ejes': this.respuesta,
+            'nombreGrafica' : 'FFT',
+            'error' : this.errorLlamada,
+            'valoresConfiguracion' : this.valoresConfiguracion
+            }
+        this.globalService.emitAuthentication(compartirRes);
+      }
+      llamarSignalConf(){}
     enviarFormulario() {
         if ( this.configFormulario.value.trigger == true){
             this.triggerAsignado = true;
@@ -201,7 +215,7 @@ export class ConfiguracionComponent implements  OnInit {
            } else {
             this.disableTime = false;
             }
-        this.recibidoOk = false;
+        // this.recibidoOk = false;
         this.valoresConfiguracion= {
             "canal" :  this.configFormulario.value.canal,
             "trigger":  this.configFormulario.value.trigger,
@@ -221,17 +235,18 @@ export class ConfiguracionComponent implements  OnInit {
         this.errorLlamada = false;
           this.respuesta = {
             "ejex" : response.ejex,
-            "ejey" : response.ejey
+            "ejey" : response.ejey,
+            "salto" : response.salto
           }
-          this.signalRecibidaOK(true);
-          if (this.respuesta.ejex == [] || this.respuesta.ejey == []){
-            this.signalRecibidaOK(false);
-          }
+        //   this.signalRecibidaOK(true);
+        //   if (this.respuesta.ejex == [] || this.respuesta.ejey == []){
+        //     this.signalRecibidaOK(false);
+        //   }
           return this.respuesta;
         },
         (error) => {
             this.errorLlamada = true;
-            this.signalRecibidaOK(false);
+            // this.signalRecibidaOK(false);
             console.log('Ha fallado configuracion: ', error)
             return null;
         });
