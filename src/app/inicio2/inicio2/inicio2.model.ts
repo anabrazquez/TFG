@@ -1,9 +1,15 @@
-export class Ejes {
-  ejex: string;
-  ejey: string;
+export class Params {
+  amplitud: string;
+  frecuencia: string;
+  periodo: string;
+  tensionMaxima: string; 
+  tensionMinima: string;
 
   constructor(obj: Object) {
-    this.ejex = obj['ejex'];
-    this.ejey = obj['ejey'];
+    this.amplitud = obj['amplitud'];
+    this.frecuencia = obj['frecuencia'];
+    this.periodo = obj['periodo'];
+    this.tensionMaxima = obj['tensionMaxima'];
+    this.tensionMinima = obj['tensionMinima'];
   }
 }

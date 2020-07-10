@@ -15,16 +15,22 @@ export class Inicio2Component implements OnInit {
   public parametros = {
     "amplitud" : false,
     "frecuencia" : false,
-    "periodo" : false
-}
+    "periodo" : false,
+    "tensionMaxima" : false,
+    "tensionMinima" : false
+  }
 public respuesta = {
   "amplitud" : "",
   "frecuencia" : "",
-  "periodo" : ""
+  "periodo" : "",
+  "tensionMaxima" : "",
+  "tensionMinima" : ""
 }
 public amp = "";
 public frec = "";
 public per = "";
+public vMax = "";
+public vMin = "";
 errorLlamada: Boolean;
 cargandoLlamada: Boolean;
   ngOnInit() {
@@ -36,7 +42,9 @@ cargandoLlamada: Boolean;
     this.paramsFormulario = this.formBuilder.group({
       amplitud: [false],
       frecuencia: [false],
-      periodo: [false]
+      periodo: [false],
+      tensionMaxima: [false],
+      tensionMinima: [false]
     });
 }
 
@@ -44,7 +52,9 @@ enviarFormulario() {
   this.parametros= {
       "amplitud" :  this.paramsFormulario.value.amplitud,
       "frecuencia":  this.paramsFormulario.value.frecuencia,
-      "periodo":  this.paramsFormulario.value.periodo
+      "periodo":  this.paramsFormulario.value.periodo,
+      "tensionMaxima" : this.paramsFormulario.value.tensionMaxima,
+      "tensionMinima" : this.paramsFormulario.value.tensionMinima
   }
   this.getSignalParams(this.parametros);
 
@@ -59,16 +69,23 @@ getSignalParams(parametros): any {
         this.respuesta = {
           "amplitud" : response.amplitud,
           "frecuencia" : response.frecuencia,
-          "periodo": response.periodo
+          "periodo": response.periodo,
+          "tensionMaxima" : response.tensionMaxima,
+          "tensionMinima" : response.tensionMinima
         }
         this.amp = this.respuesta.amplitud;
         this.frec = this.respuesta.frecuencia;
         this.per = this.respuesta.periodo;
+        this.vMax = this.respuesta.tensionMaxima;
+        this.vMin = this.respuesta.tensionMinima;
       } else {
         this.amp = "";
         this.frec = "";
         this.per = "";
+        this.vMax ="";
+        this.vMin = "";
       }
+      console.log('respuesta calculos', response)
       this.cargandoLlamada = false;
       },
       (error) => {

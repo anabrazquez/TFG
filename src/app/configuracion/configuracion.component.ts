@@ -105,7 +105,7 @@ export class ConfiguracionComponent implements  OnInit {
                 this.respuesta = this.setSignalConfig(this.valoresConfiguracion);
                 tipo = 'MODIFICADA';
             } else if(this.nombreGrafica == 'FFT'){
-                this.respuesta = this.generarFFT(this.valoresConfiguracion);
+                this.respuesta = this.getFFTPotencia2(this.valoresConfiguracion);
                 tipo = 'FFT';
             }
 
@@ -162,7 +162,7 @@ export class ConfiguracionComponent implements  OnInit {
     // signalRecibidaOK(mostrarFFTButtom){
     //     this.recibidoOk =  mostrarFFTButtom;
     // }
-     generarFFT(valoresConfiguracion): any {
+    getFFTPotencia2(valoresConfiguracion): any {
         this.inicioService.getFFTPotencia2(valoresConfiguracion).then((response) => {
             this.errorLlamada = false;
             this.respuesta = {

@@ -17,6 +17,16 @@
                     <input formControlName="periodo" id="periodo" name="periodo" [checked]="periodo == true" [(ngModel)] = "periodo" type="checkbox" />  Periodo
                 </label>
              </div>
+             <div>
+                <label>
+                    <input formControlName="tensionMaxima" id="tensionMaxima" name="tensionMaxima" [checked]="tensionMaxima == true" [(ngModel)] = "tensionMaxima" type="checkbox" />  Tensión máxima
+                </label>
+             </div>
+             <div>
+                <label>
+                    <input formControlName="tensionMinima" id="tensionMinima" name="tensionMinima" [checked]="tensionMinima == true" [(ngModel)] = "tensionMinima" type="checkbox" />  Tensión mínima
+                </label>
+             </div>
              <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 mb-3">
                 <button class="btn btn-success btn-md btn-block px-5 fs12 boton" type="submit" [disabled]="!formularioValido()">Calcular</button>
             </div>
@@ -34,9 +44,11 @@
              </div>
              <div *ngIf = "!errorLlamada && !cargandoLlamada">
                 <b>Valores Calculados </b>
-                <div>Amplitud :  {{amp}}</div>
+                <div  class="mt-3">Amplitud :  {{amp}}</div>
                 <div>Frecuencia: {{frec}}</div>
                 <div>Periodo: {{per}}</div>
+                <div>Tensión máxima: {{vMax}}</div>
+                <div>Tensión mínima: {{vMin}}</div>
             </div>
         </div>
 </div>

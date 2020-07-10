@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ValoresConfiguracion } from '../configuracion/configuracion.model';
 import { Observable } from 'rxjs';
-import { Ejes } from '../inicio2/inicio2/inicio2.model';
+import { Params } from '../inicio2/inicio2/inicio2.model';
 
 @Injectable()
 export class InicioService {
@@ -31,11 +31,11 @@ export class InicioService {
             .catch(this.handleError);
     }
 
-    getSignalParams(ejes: Ejes): Promise<any> {
+    getSignalParams(params: Params): Promise<any> {
         const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
         const url = 'http://localhost:8000/signals/signalCalculateParams';
         return this.http
-            .post( url, ejes, {headers : headers })
+            .post( url, params, {headers : headers })
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
@@ -63,15 +63,6 @@ export class InicioService {
     };
 
     
-    getFFTPotencia():  Promise<any> {
-        const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
-        const url = 'http://localhost:8000/signals/potencia';
-        return this.http
-        .get( url, {headers : headers }).toPromise()
-        .then(this.extractData)
-        .catch(this.handleError);
-    };
-
         
     getFFTPotencia2(valoresConfiguracion: ValoresConfiguracion): Promise<any> {
         const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
