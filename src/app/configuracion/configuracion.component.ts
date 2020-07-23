@@ -66,7 +66,7 @@ export class ConfiguracionComponent implements  OnInit {
     }
   
     ngOnInit(){
-        this.getOrigenSignal();
+        this.llamadaOrigenSignal();
         this.errorEnvio = '';
         this.buildFormularioConfig();
         // this.recibidoOk = false;
@@ -105,8 +105,12 @@ export class ConfiguracionComponent implements  OnInit {
                 this.respuesta = this.setSignalConfig(this.valoresConfiguracion);
                 tipo = 'MODIFICADA';
             } else if(this.nombreGrafica == 'FFT'){
-                this.respuesta = this.getFFTPotencia2(this.valoresConfiguracion);
+                this.respuesta = this.getFFT(this.valoresConfiguracion);
                 tipo = 'FFT';
+            }
+            else if(this.nombreGrafica == 'PSD'){
+                this.respuesta = this.getFFTPotencia(this.valoresConfiguracion);
+                tipo = 'PSD';
             }
 
             const compartirRes = {
@@ -141,6 +145,27 @@ export class ConfiguracionComponent implements  OnInit {
 
     };
 
+    llamadaOrigenSignal(): any {
+        // this.inicioService.getOrigenSignal().then((response) => {
+            this.errorLlamada = false;
+            // this.respuesta = response;
+            console.log('RESPUESTA ORIGEN: ', this.respuesta)
+            const compartirRes = {
+                'ejes': this.respuesta,
+                'nombreGrafica' : 'ORIGINAL',
+                'error' : this.errorLlamada,
+                'valoresConfiguracion' : this.valoresConfiguracion
+                }
+                this.globalService.emitAuthentication(compartirRes);
+            return this.respuesta;
+        // },
+        // (error) => {
+        //   this.errorLlamada = true;
+        //   console.log('Ha fallado la obtención de la señal origen: ', error)
+        //   return null;
+        // });
+
+    };
     buildFormularioConfig() {
         this.configFormulario = this.formBuilder.group({
             canal: [1 , Validators.required],
@@ -162,8 +187,38 @@ export class ConfiguracionComponent implements  OnInit {
     // signalRecibidaOK(mostrarFFTButtom){
     //     this.recibidoOk =  mostrarFFTButtom;
     // }
-    getFFTPotencia2(valoresConfiguracion): any {
-        this.inicioService.getFFTPotencia2(valoresConfiguracion).then((response) => {
+    getFFTPotencia(valoresConfiguracion): any {
+        this.inicioService.getFFTPotencia(valoresConfiguracion).then((response) => {
+            this.errorLlamada = false;
+            this.respuesta = {
+              "ejex" : response.ejex,
+              "ejey" : response.ejey,
+              "salto" : response.salto
+            }
+            return this.respuesta;
+          },
+          (error) => {
+              this.errorLlamada = true;
+              console.log('Ha fallado psd: ', error)
+              return null;
+          });
+
+          
+        //   setTimeout(()=>{ 
+        //     this.generarFFT();
+        // }, 4000);
+          const compartirRes = {
+            'ejes': this.respuesta,
+            'nombreGrafica' : 'PSD',
+            'error' : this.errorLlamada,
+            'valoresConfiguracion' : this.valoresConfiguracion
+            }
+            this.globalService.emitAuthentication(compartirRes);
+            console.log('Respuesta psd: ', compartirRes)
+      };
+
+      getFFT(valoresConfiguracion): any {
+        this.inicioService.getFFT(valoresConfiguracion).then((response) => {
             this.errorLlamada = false;
             this.respuesta = {
               "ejex" : response.ejex,
@@ -196,6 +251,16 @@ export class ConfiguracionComponent implements  OnInit {
         const compartirRes = {
             'ejes': this.respuesta,
             'nombreGrafica' : 'FFT',
+            'error' : this.errorLlamada,
+            'valoresConfiguracion' : this.valoresConfiguracion
+            }
+        this.globalService.emitAuthentication(compartirRes);
+      }
+
+      llamarPSD(){
+        const compartirRes = {
+            'ejes': this.respuesta,
+            'nombreGrafica' : 'PSD',
             'error' : this.errorLlamada,
             'valoresConfiguracion' : this.valoresConfiguracion
             }

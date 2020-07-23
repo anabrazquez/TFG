@@ -53,18 +53,29 @@ export class InicioService {
 
 
 
-    getFFT():  Promise<any> {
-        const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
-        const url = 'http://localhost:8000/signals/fft';
-        return this.http
-        .get( url, {headers : headers }).toPromise()
-        .then(this.extractData)
-        .catch(this.handleError);
-    };
+    // getFFT():  Promise<any> {
+    //     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
+    //     const url = 'http://localhost:8000/signals/fft';
+    //     return this.http
+    //     .get( url, {headers : headers }).toPromise()
+    //     .then(this.extractData)
+    //     .catch(this.handleError);
+    // };
 
     
         
-    getFFTPotencia2(valoresConfiguracion: ValoresConfiguracion): Promise<any> {
+    getFFT(valoresConfiguracion: ValoresConfiguracion): Promise<any> {
+        const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
+        // const url = 'http://localhost:8000/signals/potencia';
+        const url = 'http://localhost:8000/signals/fft';
+        return this.http
+            .post( url,valoresConfiguracion, {headers : headers })
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getFFTPotencia(valoresConfiguracion: ValoresConfiguracion): Promise<any> {
         const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
         const url = 'http://localhost:8000/signals/potencia';
         return this.http
