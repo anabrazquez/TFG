@@ -15,6 +15,12 @@ pipeline {
           }
         }
 
+        stage('Email Build') {
+          steps {
+            mail(subject: 'Hola amigos', body: 'Esto es una pruebesita', to: 'anambravil@gmail.com', from: 'anambravil@gmail.com')
+          }
+        }
+
       }
     }
 
